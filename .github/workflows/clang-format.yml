@@ -20,7 +20,7 @@ jobs:
       - run: pip install clang-format==18.1.8
       - name: Check C++ changes in the PR
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
           mapfile -t files < <(git diff --name-only --diff-filter=ACMR "$BASE_SHA"...HEAD -- \
             'firmware/*.c' 'firmware/*.cc' 'firmware/*.cpp' 'firmware/*.h' 'firmware/*.hpp')
