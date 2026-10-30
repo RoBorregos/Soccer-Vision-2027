@@ -11,4 +11,8 @@ void loop() {
     } else {
         digitalWrite(LED_BUILTIN, LOW);
     }
+
+    Serial.print("Hello, world!\n");
+
+    
 }
