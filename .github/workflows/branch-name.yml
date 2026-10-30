@@ -1,0 +1,27 @@
+name: Branch name
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch name
+        env:
+          BRANCH: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+        run: |
+          allowedPrefixes=(
+            "feature/" "bugfix/" "enhancement/" "hotfix/"
+            "docs/" "structure/" "assets/" "tests/"
+            "experiment/" "release/" "refactor/" "ci/" "config/"
+            "docker/" "evidences/"
+          )
+          revertRegex="^revert-[0-9]{1,5}-[0-9]{1,5}-"
+          if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "dev" ]; then exit 0; fi
+          PREFIX_REGEXP=$(IFS="|"; echo "^(${allowedPrefixes[*]})")
+          if [[ "$BRANCH" =~ $PREFIX_REGEXP ]] || [[ "$BRANCH" =~ $revertRegex ]]; then exit 0; fi
+          echo "::error::Invalid branch name '$BRANCH'. Allowed prefixes: ${allowedPrefixes[*]} main dev revert-X-Y-"
+          exit 1

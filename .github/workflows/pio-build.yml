@@ -1,0 +1,64 @@
+name: PIO build
+
+on:
+  push:
+    paths:
+      - "firmware/**"
+      - "docker/pioCompiler/**"
+      - ".github/workflows/pio-build.yml"
+  pull_request:
+    paths:
+      - "firmware/**"
+      - "docker/pioCompiler/**"
+      - ".github/workflows/pio-build.yml"
+
+env:
+  IMAGE: ghcr.io/roborregos/soccer-vision-pio-compiler
+
+jobs:
+  publish-image:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          docker build -t "$IMAGE:latest" docker/pioCompiler
+          docker push "$IMAGE:latest"
+
+  build:
+    needs: publish-image
+    if: always() && needs.publish-image.result != 'failure'
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/roborregos/soccer-vision-pio-compiler:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    strategy:
+      matrix:
+        env: [striker, goalie]
+    steps:
+      - uses: actions/checkout@v4
+      - run: pio run -d firmware -e ${{ matrix.env }}
+
+  test:
+    needs: publish-image
+    if: always() && needs.publish-image.result != 'failure'
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/roborregos/soccer-vision-pio-compiler:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - if: hashFiles('firmware/tests/**') != ''
+        run: pio run -d firmware -e test

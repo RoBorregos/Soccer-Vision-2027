@@ -1,0 +1,27 @@
+name: clang-format
+
+on:
+  pull_request:
+    paths:
+      - "firmware/**"
+      - ".github/workflows/clang-format.yml"
+
+jobs:
+  check-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: pip install clang-format==18.1.8
+      - name: Check C++ changes in the PR
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          mapfile -t files < <(git diff --name-only --diff-filter=ACMR "$BASE_SHA"...HEAD -- \
+            'firmware/*.c' 'firmware/*.cc' 'firmware/*.cpp' 'firmware/*.h' 'firmware/*.hpp')
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No C++ files changed in firmware/."
+            exit 0
+          fi
+          clang-format --style="{BasedOnStyle: LLVM, IndentWidth: 4}" --dry-run --Werror "${files[@]}"
