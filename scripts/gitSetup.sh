@@ -45,20 +45,20 @@ ensure_installed() {  # $1 = command, $2 = name, $3 = pkg, $4 = winget id
 ensure_installed git     "git"     git     Git.Git
 ensure_installed git-lfs "git-lfs" git-lfs GitHub.GitLFS
 
-# Check whether git-lfs is initialized
+# Check whether git-lfs is initialized (--skip-repo leaves .githooks untouched)
 if ! git config --get filter.lfs.clean &> /dev/null; then
     read -r -p "git-lfs is not initialized, do you wish to initialize it? (y/n) " response
     if [[ "$response" == "y" ]]; then
-        git lfs install
+        git lfs install --skip-repo
     else
         echo "Please initialize git-lfs manually."
         exit 1
     fi
 fi
 
-# Activate githooks for pre-commit and pre-push
+# Activate githooks
 if [ -d ".githooks" ]; then
-    echo "Activating githooks for pre-commit and pre-push..."
+    echo "Activating githooks..."
     git config core.hooksPath .githooks
     chmod +x .githooks/* 2>/dev/null || true
 else
