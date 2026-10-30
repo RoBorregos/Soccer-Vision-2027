@@ -13,6 +13,7 @@ void loop() {
     }
 
     Serial.print("Hello, world!\n");
-
+      Serial.print("Current time: ");
+      Serial.println(millis());
     
 }
