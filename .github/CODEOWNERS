@@ -1,1 +1,25 @@
-*  @JaredAlPa @TEC-Andres
+# CODEOWNERS - RoBorregos RCJ@Soccer-Vision-2027
+#
+# ---------------------------------------------------------------------------
+# Default: everything not matched below is owned by @Soccer-Vision-2027/PM
+# ---------------------------------------------------------------------------
+
+*  @Soccer-Vision-2027/PM
+
+/.github/  @Soccer-Vision-2027/PM
+
+# ---------------------------------------------------------------------------
+# Mechanics team @ Soccer-Vision-2027/Mechanics
+# ---------------------------------------------------------------------------
+/hardware/CAD/  @Soccer-Vision-2027/Mechanics
+
+# ---------------------------------------------------------------------------
+# Electronics team @ Soccer-Vision-2027/Electronics
+# ---------------------------------------------------------------------------
+/hardware/schematics/  @Soccer-Vision-2027/Electronics
+/hardware/pcb/         @Soccer-Vision-2027/Electronics
+
+# ---------------------------------------------------------------------------
+# Programming team @ Soccer-Vision-2027/Programming
+# ---------------------------------------------------------------------------
+/firmware/  @Soccer-Vision-2027/Programming
