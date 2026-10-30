@@ -1,6 +1,10 @@
 name: clang-format
 
 on:
+  push:
+    paths:
+      - "firmware/**"
+      - ".github/workflows/clang-format.yml"
   pull_request:
     paths:
       - "firmware/**"
