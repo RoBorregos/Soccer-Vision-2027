@@ -4,7 +4,7 @@
 # Default: everything not matched below is owned by @Soccer-Vision-2027/PM
 # ---------------------------------------------------------------------------
 
-*  @Soccer-Vision-2027/PM
+*  @Soccer-Vision-2027/PM @Soccer-Vision-2027/Programming @Soccer-Vision-2027/Mechanics @Soccer-Vision-2027/Electronics
 
 /.github/  @Soccer-Vision-2027/PM
 
