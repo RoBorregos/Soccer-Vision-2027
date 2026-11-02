@@ -7,12 +7,15 @@
 class BNO085 {
   private:
     Adafruit_BNO08x bno;
-    sh2_SensorValue_t sensorValue;
+    sh2_SensorValue_t sensorValue; // can store different sensor values, but we
+                                   // will use it for rotation vector
+    float yaw;
+    string i2cPort;
 
   public:
     BNO085(string i2cPort, int interruptPin);
-    bool init(string i2cPort);
-    void getYaw(float &yaw);
+    bool init();
+    float getYaw();
 };
 
 #endif
