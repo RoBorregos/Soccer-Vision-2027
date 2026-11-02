@@ -10,8 +10,8 @@ class BNO085 {
     sh2_SensorValue_t sensorValue;
 
   public:
-    BNO085();
-    bool init();
+    BNO085(string i2cPort, int interruptPin);
+    bool init(string i2cPort);
     bool getYaw(float &yaw);
 };
 

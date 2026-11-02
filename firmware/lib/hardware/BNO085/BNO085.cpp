@@ -2,13 +2,18 @@
 #include "BNO085.h"
 #include <math.h>
 
-BNO085::BNO085()
-    : bno(-1) // For interrupt pin, -1 means no interrupt, assuming I2C is used
-{
-    // Constructor
+BNO085::BNO085(string i2cPort, int interruptPin) {
+     : bno(interruptPin) // For interrupt pin, -1 means no interrupt, assuming I2C is used
+     if (init(i2cPort) == false) {
+         Serial.println("Failed to initialize BNO085 sensor!");
+     }
+     else {
+         Serial.println("BNO085 sensor initialized successfully.");
+     }
+     // Constructor
 }
 
-bool BNO085::init() {
+bool BNO085::init(string i2cPort) {
     if (!bno.begin_I2C(0x4A, &Wire)) {
         return false;
     }
