@@ -8,9 +8,9 @@
 #include <Arduino.h>
 
 void setup() {
-  initTest("FORWARD TEST");
-  runOneByOne(PWM, TIME_MS);
-  runSame(PWM, TIME_MS);
+    initTest("FORWARD TEST");
+    runOneByOne(PWM, TIME_MS);
+    runSame(PWM, TIME_MS);
 }
 
 void loop() {}
