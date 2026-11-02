@@ -6,16 +6,13 @@
  * @date 2026-11-01
  */
 
-
-#ifndef MOTOR_HPP
-#define MOTOR_HPP
+#pragma once
 
 #include <Arduino.h>
 #include <Encoder.h>
 
 class Motor {
     public:
-
         enum class Direction {FORWARD, BACKWARD};
 
         Motor(uint8_t pinIn1, uint8_t pinIn2, uint8_t pinPWM, bool inverted, uint8_t encA, uint8_t encB, float d = 0.0f);
@@ -62,6 +59,3 @@ class Motor {
 
         int32_t readCount();
 };
-
-
-#endif
