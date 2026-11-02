@@ -12,7 +12,7 @@ class BNO085 {
   public:
     BNO085(string i2cPort, int interruptPin);
     bool init(string i2cPort);
-    bool getYaw(float &yaw);
+    void getYaw(float &yaw);
 };
 
 #endif

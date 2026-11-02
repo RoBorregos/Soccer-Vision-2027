@@ -10,11 +10,10 @@ BNO085::BNO085(string i2cPort, int interruptPin) {
      else {
          Serial.println("BNO085 sensor initialized successfully.");
      }
-     // Constructor
 }
 
 bool BNO085::init(string i2cPort) {
-    if (!bno.begin_I2C(0x4A, &Wire)) {
+    if (!bno.begin_I2C(i2cPort, &Wire)) {
         return false;
     }
 
@@ -25,17 +24,21 @@ bool BNO085::init(string i2cPort) {
     return true;
 }
 
-bool BNO085::getYaw(float &yaw) {
+void BNO085::getYaw(float &yaw) {
     if (bno.wasReset()) {
         bno.enableReport(SH2_ROTATION_VECTOR, 10000);
     }
 
     if (!bno.getSensorEvent(&sensorValue)) {
-        return false;
+        yaw = 0;
+        Serial.println("Failed to get sensor event from BNO085.");
+        return;
     }
 
     if (sensorValue.sensorId != SH2_ROTATION_VECTOR) {
-        return false;
+        yaw = 0;
+        Serial.println("Received sensor event is not a rotation vector.");
+        return;
     }
 
     float i = sensorValue.un.rotationVector.i;       // q1
@@ -48,5 +51,5 @@ bool BNO085::getYaw(float &yaw) {
 
     yaw = yawRadians * 180.0f / PI;
 
-    return true;
+    return;
 }
