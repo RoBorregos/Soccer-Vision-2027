@@ -14,4 +14,6 @@ void setup()
     runSame(PWM, TIME_MS);
 }
 
-void loop() {}
+void loop()
+{
+}

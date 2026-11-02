@@ -11,8 +11,10 @@
 static const float kPI = 3.14159265f;
 static const uint32_t kMinUS = 10000; // 10 ms
 
-Motor::Motor(uint8_t pinIn1, uint8_t pinIn2, uint8_t pinPWM, bool inverted, uint8_t encA, uint8_t encB, float d = 0.0f)
-    : pinIn1_(pinIn1), pinIn2_(pinIn2), pinPWM_(pinPWM), inverted_(inverted), diameter_(d), encoder_(encA, encB) {}
+Motor::Motor(uint8_t pinIn1, uint8_t pinIn2, uint8_t pinPWM, bool inverted,
+             uint8_t encA, uint8_t encB, float d)
+    : pinIn1_(pinIn1), pinIn2_(pinIn2), pinPWM_(pinPWM), inverted_(inverted),
+      diameter_(d), encoder_(encA, encB) {}
 
 void Motor::init()
 {
@@ -33,7 +35,8 @@ void Motor::move(int speed, Direction direction)
 
     if (inverted_)
     {
-        direction = (direction == Direction::FORWARD) ? Direction::BACKWARD : Direction::FORWARD;
+        direction = (direction == Direction::FORWARD) ? Direction::BACKWARD
+                                                      : Direction::FORWARD;
     }
 
     if (direction == Direction::FORWARD)
@@ -86,10 +89,7 @@ int32_t Motor::readCount()
     return encInverted_ ? -c : c;
 }
 
-int Motor::getEncoderCount()
-{
-    return (int)readCount();
-}
+int Motor::getEncoderCount() { return (int)readCount(); }
 
 void Motor::resetEncoder()
 {
@@ -99,15 +99,9 @@ void Motor::resetEncoder()
     rps_ = 0.0f;
 }
 
-double Motor::getRotations()
-{
-    return (double)readCount() / (double)ppr_;
-}
+double Motor::getRotations() { return (double)readCount() / (double)ppr_; }
 
-float Motor::getPosition()
-{
-    return (float)getRotations() * kPI * diameter_;
-}
+float Motor::getPosition() { return (float)getRotations() * kPI * diameter_; }
 
 void Motor::update()
 {
@@ -123,15 +117,38 @@ void Motor::update()
     lastUs_ = now;
 }
 
-float Motor::getRPS() const { return rps_; }
-float Motor::getRPM() const { return rps_ * 60.0f; }
-float Motor::getSpeedMPS() const { return rps_ * kPI * diameter_; }
+float Motor::getRPS() const
+{
+    return rps_;
+}
+
+float Motor::getRPM() const
+{
+    return rps_ * 60.0f;
+}
+
+float Motor::getSpeedMPS() const
+{
+    return rps_ * kPI * diameter_;
+}
 
 void Motor::setCounts(float c)
 {
     if (c > 0.0f)
         ppr_ = c;
 }
-void Motor::setDiameter(float d) { diameter_ = d; }
-void Motor::setEncoderInverted(bool i) { encInverted_ = i; }
-void Motor::setPWMFrequency(float hz) { analogWriteFrequency(pinPWM_, hz); }
+
+void Motor::setDiameter(float d)
+{
+    diameter_ = d;
+}
+
+void Motor::setEncoderInverted(bool i)
+{
+    encInverted_ = i;
+}
+
+void Motor::setPWMFrequency(float hz)
+{
+    analogWriteFrequency(pinPWM_, hz);
+}
