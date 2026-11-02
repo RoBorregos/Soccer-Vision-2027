@@ -1,6 +1,6 @@
 /**
  * @file test_config.hpp
- * 
+ *
  * @brief common configuration
  */
 
@@ -9,9 +9,8 @@
 #include <Arduino.h>
 #include "motor/Motor.hpp"
 
-static Motor motors[] {
-    {0,0,0,false,0,0.0f}
-};
+static Motor motors[]{
+    {0, 0, 0, false, 0, 0.0f}};
 
 constexpr int PWM = 100;
 constexpr uint32_t TIME_MS = 1000;
