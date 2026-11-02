@@ -39,8 +39,7 @@ bool BNO085::getYaw(float &yaw) {
     float real = sensorValue.un.rotationVector.real; // q0
 
     float yawRadians =
-        atan2(2.0f * (real * k - i * j),
-              real * real + i * i - j * j - k * k);
+        atan2(2.0f * (real * k - i * j), real * real + i * i - j * j - k * k);
 
     yaw = yawRadians * 180.0f / PI;
 
