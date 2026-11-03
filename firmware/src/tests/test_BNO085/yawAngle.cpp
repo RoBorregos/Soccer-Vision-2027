@@ -2,7 +2,7 @@
 #include <Arduino.h>
 #include <unity.h> //to unit test as it has various functions to test the sensors
 
-BNO085 gyro("0x4A", -1);
+BNO085 gyro(0x4A, -1);
 
 void test_yaw_initial_position() {
     float yaw = 0;
