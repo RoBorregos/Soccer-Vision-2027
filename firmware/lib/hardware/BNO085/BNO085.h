@@ -17,4 +17,3 @@ class BNO085 {
     bool init();
     float getYaw();
 };
-

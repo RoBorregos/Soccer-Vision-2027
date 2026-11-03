@@ -5,7 +5,7 @@
 BNO085::BNO085(string i2cPort, int interruptPin) {
      : bno(interruptPin) // For interrupt pin, -1 means no interrupt, assuming I2C is used
      sensorValue = {}; // Initialize the sensor value
-     yaw = 0.0f; // Initialize yaw to 0
+     yaw = 0.0f;       // Initialize yaw to 0
      this->i2cPort = i2cPort;
 }
 
