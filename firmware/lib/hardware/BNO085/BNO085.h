@@ -1,4 +1,4 @@
-#ifndef BNO085_H
+#pragma once
 #define BNO085_H
 #include <Adafruit_BNO08x.h>
 #include <Arduino.h>
@@ -18,4 +18,3 @@ class BNO085 {
     float getYaw();
 };
 
-#endif

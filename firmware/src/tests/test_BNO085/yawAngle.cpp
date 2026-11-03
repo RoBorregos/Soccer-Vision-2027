@@ -6,23 +6,26 @@ BNO085 gyro("0x4A", -1);
 
 void test_yaw_initial_position() {
     float yaw = 0;
-    gyro.getYaw(yaw);
+    yaw = gyro.getYaw();
     TEST_ASSERT_FLOAT_WITHIN(5.0, 0.0, yaw);
 }
 
 void setup() {
     Serial.begin(9600);
+    if (gyro.init()) { // Initialize the BNO085 sensor
+        Serial.println("BNO085 sensor initialized successfully.");
+        UNITY_BEGIN();
 
-    UNITY_BEGIN();
+        RUN_TEST(test_yaw_initial_position);
 
-    RUN_TEST(test_yaw_initial_position);
-
-    UNITY_END();
+        UNITY_END();
+    } else {
+        Serial.println("Failed to initialize BNO085 sensor!");
+    }
 }
 
 void loop() {
     Serial.print("Yaw: ");
-    Serial.println(yaw);
-    getYaw(yaw);
-    delay(1000);
+    Serial.println(String(gyro.getYaw()));
+    delay(500);
 }
