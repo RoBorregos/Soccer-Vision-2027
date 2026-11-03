@@ -2,15 +2,16 @@
 #include "BNO085.h"
 #include <math.h>
 
-BNO085::BNO085(uint8_t i2cPort, int interruptPin) {
-     : bno(interruptPin) // For interrupt pin, -1 means no interrupt, assuming I2C is used
-     sensorValue = {}; // Initialize the sensor value
-     yaw = 0.0f;       // Initialize yaw to 0
-     this->i2cPort = i2cPort;
-}
+BNO085::BNO085(uint8_t i2cAddr = 0x4A, int resetPin = -1)
+    : bno(resetPin),   // For reset pin, -1 means no reset pin, assuming I2C is
+                       // used
+      sensorValue{},   // Initialize the sensor value
+      yaw(0.0f),       // Initialize yaw to 0
+      i2cAddr(i2cAddr) // Store the I2C address
+{}
 
 bool BNO085::init() {
-    if (!bno.begin_I2C(i2cPort, &Wire)) {
+    if (!bno.begin_I2C(i2cAddr, &Wire)) {
         return false;
     }
 
@@ -21,22 +22,17 @@ bool BNO085::init() {
     return true;
 }
 
-; // Global variable to hold the yaw value
-
 float BNO085::getYaw() {
 
     if (!bno.getSensorEvent(&sensorValue)) { // get sensor event from BNO085,
                                              // should be SH2_ROTATION_VECTOR
-        this->yaw = 0;
-        Serial.println("Failed to get sensor event from BNO085.");
-        return 0;
+        return this
+            ->yaw; // return the last known yaw if no new data is available
     }
 
     if (sensorValue.sensorId !=
         SH2_ROTATION_VECTOR) { // checking for correct event type
-        this->yaw = 0;
-        Serial.println("Received sensor event is not a rotation vector.");
-        return 0;
+        return this->yaw;
     }
 
     float i = sensorValue.un.rotationVector.i;       // q1
