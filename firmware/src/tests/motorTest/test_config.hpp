@@ -9,7 +9,7 @@
 #include "motor/Motor.hpp"
 #include <Arduino.h>
 
-static Motor motors[]{{0, 0, 0, false, 0, 0.0f}};
+static Motor motors[]{{0, 0, 0, false, 0, 0, 0.0f, 0.0f}};
 
 constexpr int PWM = 100;
 constexpr uint32_t TIME_MS = 1000;

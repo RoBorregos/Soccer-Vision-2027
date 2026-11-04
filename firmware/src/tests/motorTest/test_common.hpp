@@ -18,16 +18,6 @@ inline void stop() {
     }
 }
 
-inline const char *verdict(int speed, int32_t counts) {
-    int32_t mag = (counts < 0) ? -counts : counts;
-
-    if (mag < MIN_ENC)
-        return "NONE";
-    if ((counts > 0) != (speed > 0))
-        return "INVERT";
-    return "OK";
-}
-
 inline void initTest(const char *name) {
     Serial.begin(115200);
 
@@ -64,6 +54,18 @@ inline void run(const int speeds[], uint32_t ms) {
     }
 
     stop();
+
+    for (size_t i = 0; i < MOTORS; i++) {
+        if (speeds[i] == 0)
+            continue;
+        Serial.print(speeds[i]);
+        Serial.print(" | ");
+        Serial.print(rps[i], 2);
+        Serial.print(" | ");
+        Serial.println(counts[i]);
+    }
+
+    delay(DELAY_MS);
 }
 
 inline void runSame(int speed, uint32_t ms) {
