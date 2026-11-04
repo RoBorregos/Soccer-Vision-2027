@@ -1,17 +1,16 @@
 
 #include "BNO085.h"
+#include <Adafruit_BNO08x.h>
 #include <math.h>
 
-BNO085::BNO085(uint8_t i2cAddr = 0x4A, int resetPin = -1)
-    : bno(resetPin),   // For reset pin, -1 means no reset pin, assuming I2C is
-                       // used
-      sensorValue{},   // Initialize the sensor value
-      yaw(0.0f),       // Initialize yaw to 0
-      i2cAddr(i2cAddr) // Store the I2C address
-{}
+BNO085::BNO085(Adafruit_BNO08x &hardwareInstance, TwoWire &bus, uint8_t i2cAddr,
+               int interruptPin)
+    : bno(hardwareInstance), // We bind our wrapper directly to the injected
+                             // static memory
+      i2cBus(bus), i2cAddr(i2cAddr), interruptPin(interruptPin), yaw(0.0f) {}
 
 bool BNO085::init() {
-    if (!bno.begin_I2C(i2cAddr, &Wire)) {
+    if (!bno.begin_I2C(i2cAddress, &i2cBus, interruptPin)) {
         return false;
     }
 
@@ -22,17 +21,15 @@ bool BNO085::init() {
     return true;
 }
 
-float BNO085::getYaw() {
+float BNO085::getYaw() { return this->yaw; }
 
-    if (!bno.getSensorEvent(&sensorValue)) { // get sensor event from BNO085,
-                                             // should be SH2_ROTATION_VECTOR
-        return this
-            ->yaw; // return the last known yaw if no new data is available
+void BNO085::update() {
+    if (!bno.getSensorEvent(&sensorValue)) {
+        return;
     }
 
-    if (sensorValue.sensorId !=
-        SH2_ROTATION_VECTOR) { // checking for correct event type
-        return this->yaw;
+    if (sensorValue.sensorId != SH2_ROTATION_VECTOR) {
+        return;
     }
 
     float i = sensorValue.un.rotationVector.i;       // q1
@@ -44,5 +41,4 @@ float BNO085::getYaw() {
         atan2(2.0f * (real * k + i * j), real * real + i * i - j * j - k * k);
 
     this->yaw = yawRadians * 180.0f / PI;
-    return this->yaw;
 }
