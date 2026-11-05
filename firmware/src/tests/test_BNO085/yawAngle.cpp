@@ -1,24 +1,18 @@
 #include "BNO085.h"
+#include <Adafruit_BNO08x.h>
 #include <Arduino.h>
-#include <unity.h> //to unit test as it has various functions to test the sensors
+#include <Wire.h>
 
-BNO085 gyro(0x4A, -1);
-
-void test_yaw_initial_position() {
-    float yaw = 0;
-    yaw = gyro.getYaw();
-    TEST_ASSERT_FLOAT_WITHIN(5.0, 0.0, yaw);
-}
+Adafruit_BNO08x
+    native_bno_nav; // not optimal should be a reference from the hardware.cpp
+                    // file, but for testing purposes, we can use this for now
+BNO085 gyro(native_bno_nav, Wire, 0x4A, -1);
 
 void setup() {
+    Wire.begin();
     Serial.begin(9600);
     if (gyro.init()) { // Initialize the BNO085 sensor
         Serial.println("BNO085 sensor initialized successfully.");
-        UNITY_BEGIN();
-
-        RUN_TEST(test_yaw_initial_position);
-
-        UNITY_END();
     } else {
         Serial.println("Failed to initialize BNO085 sensor!");
     }

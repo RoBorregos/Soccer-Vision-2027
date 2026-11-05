@@ -10,7 +10,7 @@ BNO085::BNO085(Adafruit_BNO08x &hardwareInstance, TwoWire &bus, uint8_t i2cAddr,
       i2cBus(bus), i2cAddr(i2cAddr), interruptPin(interruptPin), yaw(0.0f) {}
 
 bool BNO085::init() {
-    if (!bno.begin_I2C(i2cAddress, &i2cBus, interruptPin)) {
+    if (!bno.begin_I2C(i2cAddr, &i2cBus, interruptPin)) {
         return false;
     }
 
@@ -21,9 +21,10 @@ bool BNO085::init() {
     return true;
 }
 
-float BNO085::getYaw() { return this->yaw; }
+float BNO085::getYaw() const { return this->yaw; }
 
 void BNO085::update() {
+    sh2_SensorValue_t sensorValue;
     if (!bno.getSensorEvent(&sensorValue)) {
         return;
     }
