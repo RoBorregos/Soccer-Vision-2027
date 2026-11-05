@@ -14,8 +14,8 @@
 class Motor {
   public:
     Motor(uint8_t pinIn1, uint8_t pinIn2, uint8_t pinPWM, bool inverted,
-          uint8_t encA, uint8_t encB, float diameter = 0.0f,
-          float countsPerRev);
+          uint8_t encA, uint8_t encB, float countsPerRev,
+          float diameter = 0.0f);
 
     Motor(const Motor &) = delete;
     Motor &operator=(const Motor &) = delete;

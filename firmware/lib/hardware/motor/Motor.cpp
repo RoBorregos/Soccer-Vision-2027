@@ -14,7 +14,7 @@ static const float kMicrosecondsToSeconds = 0.000001;
 Motor::Motor(uint8_t pinIn1, uint8_t pinIn2, uint8_t pinPWM, bool inverted,
              uint8_t encA, uint8_t encB, float diameter, float countsPerRev)
     : pinIn1_(pinIn1), pinIn2_(pinIn2), pinPWM_(pinPWM), inverted_(inverted),
-      diameter_(diameter), countsPerRev_(countsPerRev_), encoder_(encA, encB) {}
+      diameter_(diameter), countsPerRev_(countsPerRev), encoder_(encA, encB) {}
 
 void Motor::init() {
     pinMode(pinIn1_, OUTPUT);

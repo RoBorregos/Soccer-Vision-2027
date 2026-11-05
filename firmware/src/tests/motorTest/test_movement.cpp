@@ -1,5 +1,5 @@
 /**
- * @file test_forward.cpp
+ * @file test_movement.cpp
  *
  * @brief test motor ccw+ and positive encoder signal
  */
