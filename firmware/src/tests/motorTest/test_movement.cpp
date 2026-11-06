@@ -9,7 +9,7 @@
 
 void setup() {
     initTest("TEST 1");
-    runOneByOne(PWM, TIME_MS);
+    runSame(PWM, TIME_MS);
 }
 
 void loop() {}

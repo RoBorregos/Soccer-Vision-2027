@@ -17,4 +17,4 @@ static Motor motors[]{{29, 28, 2, false},
 constexpr int PWM = 100;
 constexpr uint32_t TIME_MS = 1000;
 constexpr uint32_t DELAY_MS = 500;
-constexpr int START = 10; // seconds
+constexpr int START = 3; // seconds
