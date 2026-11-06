@@ -9,7 +9,7 @@
 #include "Motors.hpp"
 #include <math.h>
 
-static const float kWheelDegrees[] = {0.0f, 0.0f, 0.0f, 0.0f};
+static const float kWheelDegrees[] = {322.5f, 37.5f, 217.5f, 142.5f};
 static const float kDegreesToRadians = M_PI / 180;
 static const float kMaxPWM = 255;
 

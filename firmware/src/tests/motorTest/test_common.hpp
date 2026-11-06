@@ -10,7 +10,6 @@
 #include <Arduino.h>
 
 constexpr size_t MOTORS = sizeof(motors) / sizeof(motors[0]);
-constexpr int32_t MIN_ENC = 10; // encoder debug
 
 inline void stop() {
     for (size_t i = 0; i < MOTORS; i++) {
@@ -33,11 +32,9 @@ inline void initTest(const char *name) {
 }
 
 inline void run(const int speeds[], uint32_t ms) {
-    int32_t counts[MOTORS];
     float rps[MOTORS];
 
     for (size_t i = 0; i < MOTORS; i++) {
-        motors[i].resetEncoder();
         motors[i].move(speeds[i]);
     }
 
@@ -48,21 +45,12 @@ inline void run(const int speeds[], uint32_t ms) {
         }
     }
 
-    for (size_t i = 0; i < MOTORS; i++) {
-        counts[i] = motors[i].getEncoderCount();
-        rps[i] = motors[i].getRPS();
-    }
-
     stop();
 
     for (size_t i = 0; i < MOTORS; i++) {
         if (speeds[i] == 0)
             continue;
         Serial.print(speeds[i]);
-        Serial.print(" | ");
-        Serial.print(rps[i], 2);
-        Serial.print(" | ");
-        Serial.println(counts[i]);
     }
 
     delay(DELAY_MS);
