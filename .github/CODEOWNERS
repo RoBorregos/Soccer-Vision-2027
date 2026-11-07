@@ -1,25 +1,25 @@
 # CODEOWNERS - RoBorregos RCJ@Soccer-Vision-2027
 #
-# ---------------------------------------------------------------------------
-# Default: everything not matched below is owned by @Soccer-Vision-2027/PM
+# -------------------------------------------------------------------------
+# Default: everything not matched below is owned by @Roborregos/SoccerVision-PM
 # ---------------------------------------------------------------------------
 
-*  @Soccer-Vision-2027/PM @Soccer-Vision-2027/Programming @Soccer-Vision-2027/Mechanics @Soccer-Vision-2027/Electronics
+*  @Roborregos/SoccerVision-PM @Roborregos/SoccerVision-Programming @Roborregos/SoccerVision-Mechanics @Roborregos/SoccerVision-Electronics
 
-/.github/  @Soccer-Vision-2027/PM
-
-# ---------------------------------------------------------------------------
-# Mechanics team @ Soccer-Vision-2027/Mechanics
-# ---------------------------------------------------------------------------
-/hardware/CAD/  @Soccer-Vision-2027/Mechanics
+/.github/  @Roborregos/SoccerVision-PM
 
 # ---------------------------------------------------------------------------
-# Electronics team @ Soccer-Vision-2027/Electronics
+# Mechanics team @ Roborregos/SoccerVision-Mechanics
 # ---------------------------------------------------------------------------
-/hardware/schematics/  @Soccer-Vision-2027/Electronics
-/hardware/pcb/         @Soccer-Vision-2027/Electronics
+/hardware/CAD/  @Roborregos/SoccerVision-Mechanics
 
 # ---------------------------------------------------------------------------
-# Programming team @ Soccer-Vision-2027/Programming
+# Electronics team @ Roborregos/SoccerVision-Electronics
 # ---------------------------------------------------------------------------
-/firmware/  @Soccer-Vision-2027/Programming
+/hardware/schematics/  @Roborregos/SoccerVision-Electronics
+/hardware/pcb/         @Roborregos/SoccerVision-Electronics
+
+# ---------------------------------------------------------------------------
+# Programming team @ Roborregos/SoccerVision-Programming
+# ---------------------------------------------------------------------------
+/firmware/  @Roborregos/SoccerVision-Programming
