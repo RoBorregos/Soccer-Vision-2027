@@ -1,8 +1,8 @@
 #pragma once
 #include "IMUInterface.h"
-#include <Adafruit_BNO08x.h>
 #include <Arduino.h>
-#include <Wire.h>
+class Adafruit_BNO08x; 
+class TwoWire;
 
 class BNO085 : public IMUInterface {
   private:
