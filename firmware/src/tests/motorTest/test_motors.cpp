@@ -1,11 +1,10 @@
 /**
  * @file test_motors.cpp
  *
- * @brief test motors w/ motors class
+ * @brief motors test
  */
 
-#include "../lib/hardware/motors/Motors.hpp"
-#include "test_common.hpp"
+#include "motors/Motors.hpp"
 #include <Arduino.h>
 
 static Motor fL{29, 28, 2, true};
@@ -13,23 +12,60 @@ static Motor fR{35, 36, 5, true};
 static Motor bL{31, 30, 3, false};
 static Motor bR{34, 33, 4, false};
 
-static Motors motorss(fL, fR, bL, bR);
+static Motor *wheels[] = {&fL, &fR, &bL, &bR};
 
-constexpr float kSpeed = 100.0f;
-constexpr uint32_t kMoveMs = 1000;
-constexpr int kStart = 5;
+static Motors motors(fL, fR, bL, bR);
+
+constexpr float kSpeed = 80.0f;
+constexpr float kRotation = 60.0f;
+constexpr uint32_t kMoveMS = 1500;
+constexpr uint32_t kWatchdogMS = 300;
+
+static void hold(float degree, float speed, float rotation, uint32_t ms) {
+    uint32_t start = millis();
+    while (millis() - start < ms) {
+        motors.move(degree, speed, rotation);
+        motors.update();
+        delay(5);
+    }
+    motors.coast();
+}
+
+static void oneByOne() {
+    for (size_t i = 0; i < 4; i++) {
+        uint32_t start = millis();
+        while (millis() - start < kMoveMS) {
+            wheels[i]->move(100);
+            wheels[i]->update(), delay(5);
+        }
+        wheels[i]->coast();
+        delay(500);
+    }
+}
 
 void setup() {
     Serial.begin(115200);
-    motorss.init();
-
-    Serial.print("TEST 2");
+    while (!Serial && millis() < 3000) {
+    }
+    motors.init();
 }
 
 void loop() {
-    motorss.moveForward(kSpeed);
-    delay(kMoveMs);
-    motorss.coast();
+    // One By One
+    // oneByOne();
 
-    delay(1500);
+    // Rotate CCW+
+    // hold(0,0,kRotation,kMoveMS);
+
+    // Foward
+    // hold(0,kSpeed,0,kMoveMS);
+
+    // Right
+    // hold(90,kSpeed,0,kMoveMS);
+
+    // Backwards
+    // hold(180,kSpeed,0,kMoveMS);
+
+    // Left
+    // hold(270,kSpeed,0,kMoveMS);
 }
