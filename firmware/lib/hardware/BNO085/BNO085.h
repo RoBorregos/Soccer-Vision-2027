@@ -1,7 +1,7 @@
 #pragma once
 #include "IMUInterface.h"
 #include <Arduino.h>
-class Adafruit_BNO08x; 
+class Adafruit_BNO08x;
 class TwoWire;
 
 class BNO085 : public IMUInterface {
