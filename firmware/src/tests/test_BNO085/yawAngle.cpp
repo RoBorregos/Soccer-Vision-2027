@@ -22,5 +22,5 @@ void loop() {
     Serial.print("Yaw: ");
     Serial.println(String(gyro.getYaw()));
     gyro.update(); // Update the sensor readings
-    delay(500);
+    delay(50);
 }
