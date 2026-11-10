@@ -18,19 +18,20 @@ void Motor::init() {
     pinMode(pinIn2_, OUTPUT);
     pinMode(pinPWM_, OUTPUT);
 
-    coast();
+    this->coast();
 }
 
 void Motor::move(int speed) {
     speed = constrain(speed, -kMaxSpeed, kMaxSpeed);
     if (speed == 0) {
-        coast();
+        this->coast();
         return;
     }
 
     bool isForward = (speed > 0) ^ inverted_;
     digitalWrite(pinIn1_, isForward ? HIGH : LOW);
     digitalWrite(pinIn2_, isForward ? LOW : HIGH);
+    analogWrite(pinPWM_, abs(speed));
 }
 
 void Motor::coast() {

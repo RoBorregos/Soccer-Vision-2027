@@ -18,14 +18,14 @@ class Motor : public MotorInterface {
     Motor(const Motor &) = delete;
     Motor &operator=(const Motor &) = delete;
 
-    void init();
+    void init() override;
 
-    void move(int speed);
-    void coast();
-    void brake();
+    void move(int speed) override;
+    void coast() override;
+    void brake() override;
 
     void setPWMFrequency(float hz); // TODO: test on teensy
   private:
     const uint8_t pinIn1_, pinIn2_, pinPWM_;
-    bool inverted_;
+    const bool inverted_;
 };
