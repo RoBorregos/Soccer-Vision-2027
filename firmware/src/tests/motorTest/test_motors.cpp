@@ -19,13 +19,11 @@ static Motors motors(fL, fR, bL, bR);
 constexpr float kSpeed = 80.0f;
 constexpr float kRotation = 60.0f;
 constexpr uint32_t kMoveMS = 1500;
-constexpr uint32_t kWatchdogMS = 300;
 
 static void hold(float degree, float speed, float rotation, uint32_t ms) {
     uint32_t start = millis();
     while (millis() - start < ms) {
         motors.move(degree, speed, rotation);
-        motors.update();
         delay(5);
     }
     motors.coast();
@@ -36,7 +34,7 @@ static void oneByOne() {
         uint32_t start = millis();
         while (millis() - start < kMoveMS) {
             wheels[i]->move(100);
-            wheels[i]->update(), delay(5);
+            delay(5);
         }
         wheels[i]->coast();
         delay(500);
