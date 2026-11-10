@@ -21,21 +21,16 @@ constexpr float kRotation = 60.0f;
 constexpr uint32_t kMoveMS = 1500;
 
 static void hold(float degree, float speed, float rotation, uint32_t ms) {
-    uint32_t start = millis();
-    while (millis() - start < ms) {
-        motors.move(degree, speed, rotation);
-        delay(5);
-    }
+    motors.move(degree, speed, rotation);
+    delay(ms);
     motors.coast();
 }
 
 static void oneByOne() {
     for (size_t i = 0; i < 4; i++) {
-        uint32_t start = millis();
-        while (millis() - start < kMoveMS) {
-            wheels[i]->move(100);
-            delay(5);
-        }
+        wheels[i]->move(100);
+        delay(kMoveMS);
+
         wheels[i]->coast();
         delay(500);
     }
@@ -46,13 +41,18 @@ void setup() {
     while (!Serial && millis() < 3000) {
     }
     motors.init();
+
+    fL.setPWMFrequency(20000);
+    fR.setPWMFrequency(20000);
+    bL.setPWMFrequency(20000);
+    bR.setPWMFrequency(20000);
 }
 
 void loop() {
     // One By One
-    // oneByOne();
+    oneByOne();
 
-    // Rotate CCW+
+    // Rotate
     // hold(0,0,kRotation,kMoveMS);
 
     // Foward
