@@ -47,12 +47,6 @@ void Motors::moveLeft(float speed) { move(270.0f, speed); }
 void Motors::moveBackward(float speed) { move(180.0f, speed); }
 void Motors::moveRight(float speed) { move(90.0f, speed); }
 
-void Motors::update() {
-    for (size_t i = 0; i < kNumMotors; i++) {
-        motors_[i]->update();
-    }
-}
-
 void Motors::coast() {
     for (size_t i = 0; i < kNumMotors; i++) {
         motors_[i]->coast();

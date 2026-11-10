@@ -25,7 +25,6 @@ class Motors {
     void moveRight(float speed);
     void moveLeft(float speed);
 
-    void update();
     void coast();
     void brake();
 
