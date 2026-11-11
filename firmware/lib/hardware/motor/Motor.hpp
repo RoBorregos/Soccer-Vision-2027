@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../../software/MotorInterface/MotorInterface.h"
+#include "MotorInterface/MotorInterface.h"
 #include <Arduino.h>
 
 class Motor : public MotorInterface {

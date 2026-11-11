@@ -7,17 +7,17 @@
 #include "motors/Motors.hpp"
 #include <Arduino.h>
 
-static Motor fL{29, 28, 2, true};
+static Motor fL{29, 28, 2, false};
 static Motor fR{35, 36, 5, true};
-static Motor bL{31, 30, 3, false};
+static Motor bL{31, 30, 3, true};
 static Motor bR{34, 33, 4, false};
 
 static Motor *wheels[] = {&fL, &fR, &bL, &bR};
 
 static Motors motors(fL, fR, bL, bR);
 
-constexpr float kSpeed = 80.0f;
-constexpr float kRotation = 60.0f;
+constexpr float kSpeed = 120.0f;
+constexpr float kRotation = 80.0f;
 constexpr uint32_t kMoveMS = 1500;
 
 static void hold(float degree, float speed, float rotation, uint32_t ms) {
@@ -28,7 +28,7 @@ static void hold(float degree, float speed, float rotation, uint32_t ms) {
 
 static void oneByOne() {
     for (size_t i = 0; i < 4; i++) {
-        wheels[i]->move(100);
+        wheels[i]->move(80);
         delay(kMoveMS);
 
         wheels[i]->coast();
@@ -49,14 +49,15 @@ void setup() {
 }
 
 void loop() {
+    delay(3000);
     // One By One
-    oneByOne();
+    // oneByOne();
 
     // Rotate
     // hold(0,0,kRotation,kMoveMS);
 
     // Foward
-    // hold(0,kSpeed,0,kMoveMS);
+    hold(0, kSpeed, 0, kMoveMS);
 
     // Right
     // hold(90,kSpeed,0,kMoveMS);
