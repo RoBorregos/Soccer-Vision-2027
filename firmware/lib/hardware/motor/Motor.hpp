@@ -9,7 +9,7 @@
 #pragma once
 
 #include "MotorInterface.h"
-#include <Arduino.h>
+#include <stdint.h>
 
 class Motor : public MotorInterface {
   public:
