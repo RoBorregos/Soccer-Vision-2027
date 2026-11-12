@@ -20,7 +20,7 @@ class Motor : public MotorInterface {
 
     void init() override;
 
-    void move(int speed) override;
+    void setSpeed(int speed) override;
     void coast() override;
     void brake() override;
 

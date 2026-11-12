@@ -20,15 +20,18 @@ class Motors {
     void move(float degree, float speed, float rotation = 0.0f);
     void rotate(float rotation);
 
-    void moveForward(float speed);
-    void moveBackward(float speed);
-    void moveRight(float speed);
-    void moveLeft(float speed);
-
     void coast();
     void brake();
 
   private:
     static constexpr size_t kNumMotors = 4;
     Motor *motors_[kNumMotors];
+
+    static constexpr float kFrontLeftDeg = 322.5f;
+    static constexpr float kFrontRightDeg = 37.5f;
+    static constexpr float kBackLeftDeg = 217.5f;
+    static constexpr float kBackRightDeg = 142.5f;
+
+    static constexpr float kWheelDegrees[kNumMotors] = {
+        kFrontLeftDeg, kFrontRightDeg, kBackLeftDeg, kBackRightDeg};
 };

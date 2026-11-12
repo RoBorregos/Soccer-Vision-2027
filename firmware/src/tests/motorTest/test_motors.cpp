@@ -28,7 +28,7 @@ static void hold(float degree, float speed, float rotation, uint32_t ms) {
 
 static void oneByOne() {
     for (size_t i = 0; i < 4; i++) {
-        wheels[i]->move(80);
+        wheels[i]->setSpeed(80);
         delay(kMoveMS);
 
         wheels[i]->coast();

@@ -12,7 +12,7 @@ class MotorInterface {
 
     virtual void init() = 0;
 
-    virtual void move(int speed) = 0;
+    virtual void setSpeed(int speed) = 0;
 
     virtual void coast() = 0;
 

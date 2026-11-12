@@ -21,7 +21,7 @@ void Motor::init() {
     this->coast();
 }
 
-void Motor::move(int speed) {
+void Motor::setSpeed(int speed) {
     speed = constrain(speed, -kMaxSpeed, kMaxSpeed);
     if (speed == 0) {
         this->coast();
