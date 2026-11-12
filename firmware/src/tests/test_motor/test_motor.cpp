@@ -1,7 +1,7 @@
-#include <Arduino.h>
 #include "motor/Motor.hpp"
+#include <Arduino.h>
 
-Motor m{35,36,5,false};
+Motor m{35, 36, 5, false};
 
 void setup() {
     Serial.begin(115200);
