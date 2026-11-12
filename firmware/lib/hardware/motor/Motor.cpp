@@ -7,6 +7,7 @@
  */
 
 #include "Motor.hpp"
+#include <Arduino.h>
 
 static const uint8_t kMaxSpeed = 255;
 
