@@ -18,7 +18,6 @@ class Motors {
 
     void init();
     void move(float degree, float speed, float rotation = 0.0f);
-    void rotate(float rotation);
 
     void coast();
     void brake();
