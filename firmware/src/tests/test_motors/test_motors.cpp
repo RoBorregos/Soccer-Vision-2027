@@ -57,7 +57,7 @@ void loop() {
     // hold(0,0,kRotation,kMoveMS);
 
     // Foward
-    hold(0, kSpeed, 0, kMoveMS);
+    // hold(0, kSpeed, 0, kMoveMS);
 
     // Right
     // hold(90,kSpeed,0,kMoveMS);

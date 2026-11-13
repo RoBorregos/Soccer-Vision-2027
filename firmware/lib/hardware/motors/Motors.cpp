@@ -35,7 +35,7 @@ void Motors::move(float degree, float speed, float rotation) {
     float scale = (maxPWM > kMaxPWM) ? kMaxPWM / maxPWM : 1.0f;
 
     for (size_t i = 0; i < kNumMotors; i++) {
-        motors_[i]->setSpeed((int)roundf(i) * scale);
+        motors_[i]->setSpeed((int)lroundf(pwm[i] * scale));
     }
 }
 
