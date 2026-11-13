@@ -1,17 +1,13 @@
 
 #include "MPU6050.h"
-#include <math.h>
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
+#include <math.h>
 
-MPU6050::MPU6050(Adafruit_MPU6050 &hardwareInstance, TwoWire &bus, uint8_t i2cAddr)
-    : mpu(hardwareInstance),
-      i2cBus(bus),
-      i2cAddr(i2cAddr),
-      gyro_bias_z(0.0f),
-      yaw(0.0f),
-      previous_time(0),
-      previous_gyro(0.0f),{}
+MPU6050::MPU6050(Adafruit_MPU6050 &hardwareInstance, TwoWire &bus,
+                 uint8_t i2cAddr)
+    : mpu(hardwareInstance), i2cBus(bus), i2cAddr(i2cAddr), gyro_bias_z(0.0f),
+      yaw(0.0f), previous_time(0), previous_gyro(0.0f), {}
 
 bool MPU6050::init() {
     int samples = 500;
@@ -55,12 +51,10 @@ bool MPU6050::init() {
     return true;
 }
 
-float MPU6050::getYaw() {
-    return this->yaw;
-}
+float MPU6050::getYaw() { return this->yaw; }
 
 void MPU6050::update() {
-    
+
     unsigned long current_time = micros();
 
     double dt = (current_time - previous_time) / 1000000.0;
@@ -90,7 +84,11 @@ void MPU6050::update() {
     previous_gyro = gyro_z;
 
     // Normalize yaw between -180 and 180
-    if (this->yaw > 180.0f) { this->yaw -= 360.0f;}
-    if (this->yaw < -180.0f) { this->yaw += 360.0f;}
+    if (this->yaw > 180.0f) {
+        this->yaw -= 360.0f;
+    }
+    if (this->yaw < -180.0f) {
+        this->yaw += 360.0f;
+    }
     previous_time = current_time;
 }

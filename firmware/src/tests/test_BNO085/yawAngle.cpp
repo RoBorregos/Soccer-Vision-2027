@@ -3,7 +3,7 @@
 #include <Wire.h>
 #include <hardware.h>
 
-extern class Adafruit_BNO08x native_bno_nav; 
+extern class Adafruit_BNO08x native_bno_nav;
 BNO085 gyro(native_bno_nav, Wire, 0x4A, -1);
 
 void setup() {

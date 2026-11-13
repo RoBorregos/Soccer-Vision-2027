@@ -1,10 +1,10 @@
-#include "MPU6050.h"
 #include "BNO085.h"
+#include "MPU6050.h"
 #include <Arduino.h>
 #include <Wire.h>
 #include <hardware.h>
 
-extern class Adafruit_MPU6050 native_mpu; 
+extern class Adafruit_MPU6050 native_mpu;
 MPU6050 gyro(native_mpu, Wire, 0x68);
 
 void setup() {
