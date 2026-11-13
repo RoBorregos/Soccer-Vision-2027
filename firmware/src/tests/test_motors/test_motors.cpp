@@ -17,7 +17,7 @@ static Motor *wheels[] = {&fL, &fR, &bL, &bR};
 static Motors motors(fL, fR, bL, bR);
 
 constexpr float kSpeed = 120.0f;
-constexpr float kRotation = 80.0f;
+constexpr float kRotation = 100.0f;
 constexpr uint32_t kMoveMS = 1500;
 
 static void hold(float degree, float speed, float rotation, uint32_t ms) {
@@ -54,7 +54,7 @@ void loop() {
     // oneByOne();
 
     // Rotate
-    // hold(0,0,kRotation,kMoveMS);
+    hold(0, 0, kRotation, kMoveMS);
 
     // Foward
     // hold(0, kSpeed, 0, kMoveMS);
