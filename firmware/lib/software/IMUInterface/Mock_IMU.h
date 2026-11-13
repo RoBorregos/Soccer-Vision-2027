@@ -1,12 +1,11 @@
 #pragma once
 #include "IMUInterface.h"
 
-class Mock_IMU : public IMUInterface
-{
-private:
+class Mock_IMU : public IMUInterface {
+  private:
     float yaw;
 
-public:
+  public:
     Mock_IMU();
     ~Mock_IMU() override = default;
     virtual bool init() override;
