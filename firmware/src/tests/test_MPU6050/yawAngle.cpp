@@ -1,15 +1,14 @@
-#include "BNO085.h"
 #include "MPU6050.h"
 #include <Arduino.h>
 #include <Wire.h>
 #include <hardware.h>
 
-extern class Adafruit_MPU6050 native_mpu;
-MPU6050 gyro(native_mpu, Wire, 0x68);
+extern class Adafruit_MPU6050 native_mpu_nav;
+MPU6050 gyro(native_mpu_nav, Wire, 0x68);
 
 void setup() {
     Wire.begin();
-    Serial.begin(9600);
+    Serial.begin(115200);
     if (gyro.init()) { // Initialize the MPU6050 sensor
         Serial.println("MPU6050 sensor initialized successfully.");
     } else {

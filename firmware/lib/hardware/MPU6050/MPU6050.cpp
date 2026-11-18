@@ -7,7 +7,7 @@
 MPU6050::MPU6050(Adafruit_MPU6050 &hardwareInstance, TwoWire &bus,
                  uint8_t i2cAddr)
     : mpu(hardwareInstance), i2cBus(bus), i2cAddr(i2cAddr), gyro_bias_z(0.0f),
-      yaw(0.0f), previous_time(0), previous_gyro(0.0f), {}
+      yaw(0.0f), previous_time(0), previous_gyro(0.0f) {}
 
 bool MPU6050::init() {
     int samples = 500;
@@ -22,22 +22,23 @@ bool MPU6050::init() {
 
     float sum = 0.0f;
 
-    sensors_event_t gyro;
+    sensors_event_t gyro, accel, temp;
 
     // Calibrate gyro Z
     unsigned long last_sample = millis();
     int i = 0;
 
     while (i < samples) {
-        if (millis() - last_sample >= 5) {
-            mpu.getEvent(nullptr, &gyro, nullptr);
+        unsigned long current_time = millis();
+        if (current_time - last_sample >= 5) {
+            mpu.getEvent(&accel, &gyro, &temp);
 
             float gyro_z = gyro.gyro.z * 180.0f / PI;
 
             sum += gyro_z;
 
             last_sample = millis();
-            i++;
+            i = i + 1;
         }
     }
 
@@ -51,7 +52,7 @@ bool MPU6050::init() {
     return true;
 }
 
-float MPU6050::getYaw() { return this->yaw; }
+float MPU6050::getYaw() const { return this->yaw; }
 
 void MPU6050::update() {
 
@@ -63,9 +64,9 @@ void MPU6050::update() {
         dt = 0;
     }
 
-    sensors_event_t gyro;
+    sensors_event_t gyro, accel, temp;
 
-    mpu.getEvent(nullptr, &gyro, nullptr);
+    mpu.getEvent(&accel, &gyro, &temp);
 
     // Convert rad/s to deg/s
     float gyro_z = gyro.gyro.z * 180.0f / PI;
@@ -79,7 +80,7 @@ void MPU6050::update() {
     }
 
     // Integrate angular velocity
-    avg_gyro_z = (gyro_z + previous_gyro) / 2.0f;
+    float avg_gyro_z = (gyro_z + previous_gyro) / 2.0f;
     this->yaw += avg_gyro_z * dt;
     previous_gyro = gyro_z;
 
