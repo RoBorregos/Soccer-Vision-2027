@@ -1,6 +1,6 @@
 #pragma once
 #include "IMUInterface.h"
-#include <Arduino.h>
+#include <cstdint>
 
 class Adafruit_MPU6050;
 class TwoWire;
