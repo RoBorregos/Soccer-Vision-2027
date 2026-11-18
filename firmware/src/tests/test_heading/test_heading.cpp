@@ -20,19 +20,22 @@ static Motors motors(fL, fR, bL, bR);
 static Adafruit_BNO08x native_bno_nav;
 static BNO085 gyro(native_bno_nav, Wire, 0x4A, -1);
 
-constexpr float kYawInverted = 1.0f;
 constexpr float kMinOutput = 0.0f;
 constexpr float kMaxOutput = 120.0f;
-constexpr float kDeadbandDeg = 0.3f;
+constexpr float kMinSteerOutput = 0.0f;
+constexpr float kDeadbandDeg = 1.0f;
 constexpr float kDriveSpeed = 160.0f;
 constexpr uint32_t kLoopUs = 10000;
 constexpr uint32_t kStaleMs = 500; // IMU debug
 constexpr uint32_t kPrintMS = 50;
+constexpr bool kUseMovementTimer = true;
+constexpr uint32_t kMovementDurationMs = 1000;
 
 static PIDController pid(1.5f, 0.3f, 0.1f);
 static bool enabled = true;
 static bool drive = true;
 static uint32_t lastLoopUs = 0;
+static uint32_t movementStartMs = 0;
 static float lastYaw = 0.0f;
 static uint32_t lastYawChangeMs = 0;
 static uint32_t lastPrintMs = 0;
@@ -62,13 +65,14 @@ void setup() {
         gyro.update();
     }
 
-    lastYaw = kYawInverted * gyro.getYaw();
+    lastYaw = gyro.getYaw();
     lastYawChangeMs = millis();
 
+    movementStartMs = millis();
     pid.setTarget(lastYaw);
     pid.setOutputLimit(kMaxOutput);
     pid.setDeadband(kDeadbandDeg);
-    pid.setMinOutput(kMinOutput);
+    pid.setMinOutput(drive ? kMinOutput : kMinSteerOutput);
 
     lastLoopUs = micros();
 }
@@ -81,7 +85,7 @@ void loop() {
     float dt = (now - lastLoopUs) * 0.000001f;
     lastLoopUs = now;
 
-    float yaw = kYawInverted * gyro.getYaw();
+    float yaw = gyro.getYaw();
     if (yaw != lastYaw) {
         lastYaw = yaw;
         lastYawChangeMs = millis();
@@ -96,7 +100,10 @@ void loop() {
             motors.coast();
             rot = 0.0f;
         } else {
-            float targetSpeed = drive ? kDriveSpeed : 0.0f;
+            bool movementActive =
+                drive && (!kUseMovementTimer ||
+                          millis() - movementStartMs < kMovementDurationMs);
+            float targetSpeed = movementActive ? kDriveSpeed : 0.0f;
             if (currentSpeed < targetSpeed) {
                 currentSpeed =
                     min(targetSpeed, currentSpeed + kAccelPerSec * dt);
