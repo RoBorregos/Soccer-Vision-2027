@@ -28,7 +28,8 @@ void Motors::move(float degree, float speed, float rotation) {
     float maxPWM = 0.0f;
 
     for (size_t i = 0; i < kNumMotors; i++) {
-        float angle = (degree - kWheelDegrees[i] - kOffset) * kDegreesToRadians;
+        float angle = (degree - motors_[i]->getWheelAngle() - kOffset) *
+                      kDegreesToRadians;
         pwm[i] = speed * cosf(angle) + rotation;
         maxPWM = fmaxf(maxPWM, fabsf(pwm[i]));
     }

@@ -7,14 +7,25 @@
 #include "BNO085.h"
 #include "Motors.hpp"
 #include "PIDController.h"
+#include "constants/motorConstants.hpp"
 #include <Adafruit_BNO08x.h>
 #include <Arduino.h>
 #include <Wire.h>
 
-static Motor fL{29, 28, 2, false};
-static Motor fR{35, 36, 5, true};
-static Motor bL{31, 30, 3, true};
-static Motor bR{34, 33, 4, false};
+namespace mc = motorConstants;
+
+static Motor fL{mc::ids::frontLeftIn1, mc::ids::frontLeftIn2,
+                mc::ids::frontLeftPwm, mc::inversions::frontLeft,
+                mc::angles::frontLeft};
+static Motor fR{mc::ids::frontRightIn1, mc::ids::frontRightIn2,
+                mc::ids::frontRightPwm, mc::inversions::frontRight,
+                mc::angles::frontRight};
+static Motor bL{mc::ids::backLeftIn1, mc::ids::backLeftIn2,
+                mc::ids::backLeftPwm, mc::inversions::backLeft,
+                mc::angles::backLeft};
+static Motor bR{mc::ids::backRightIn1, mc::ids::backRightIn2,
+                mc::ids::backRightPwm, mc::inversions::backRight,
+                mc::angles::backRight};
 static Motors motors(fL, fR, bL, bR);
 
 static Adafruit_BNO08x native_bno_nav;

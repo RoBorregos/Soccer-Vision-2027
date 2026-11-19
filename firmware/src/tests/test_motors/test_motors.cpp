@@ -4,15 +4,24 @@
  * @brief motors test
  */
 
+#include "constants/motorConstants.hpp"
 #include "motors/Motors.hpp"
 #include <Arduino.h>
 
-static Motor fL{29, 28, 2, false};
-static Motor fR{35, 36, 5, true};
-static Motor bL{31, 30, 3, true};
-static Motor bR{34, 33, 4, false};
+namespace mc = motorConstants;
 
-static Motor *wheels[] = {&fL, &fR, &bL, &bR};
+static Motor fL{mc::ids::frontLeftIn1, mc::ids::frontLeftIn2,
+                mc::ids::frontLeftPwm, mc::inversions::frontLeft,
+                mc::angles::frontLeft};
+static Motor fR{mc::ids::frontRightIn1, mc::ids::frontRightIn2,
+                mc::ids::frontRightPwm, mc::inversions::frontRight,
+                mc::angles::frontRight};
+static Motor bL{mc::ids::backLeftIn1, mc::ids::backLeftIn2,
+                mc::ids::backLeftPwm, mc::inversions::backLeft,
+                mc::angles::backLeft};
+static Motor bR{mc::ids::backRightIn1, mc::ids::backRightIn2,
+                mc::ids::backRightPwm, mc::inversions::backRight,
+                mc::angles::backRight};
 
 static Motors motors(fL, fR, bL, bR);
 
@@ -24,16 +33,6 @@ static void hold(float degree, float speed, float rotation, uint32_t ms) {
     motors.move(degree, speed, rotation);
     delay(ms);
     motors.coast();
-}
-
-static void oneByOne() {
-    for (size_t i = 0; i < 4; i++) {
-        wheels[i]->setSpeed(80);
-        delay(kMoveMS);
-
-        wheels[i]->coast();
-        delay(500);
-    }
 }
 
 void setup() {
