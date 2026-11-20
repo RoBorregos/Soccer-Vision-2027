@@ -88,6 +88,6 @@ void MPU6050::update() {
     previous_gyro = gyro_z;
 
     // Normalize yaw between -180 and 180
-    this->yaw = helpers::wrap(this->yaw, -180.0f, 180.0f);
+    yaw = wrap(yaw, -180.0f, 180.0f);
     previous_time = current_time;
 }
