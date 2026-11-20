@@ -15,6 +15,8 @@ class MPU6050 : public IMUInterface {
     float gyro_bias_z;
     unsigned long previous_time;
     float previous_gyro;
+    float change;
+    float previous_change;
 
   public:
     // Constructor accepts the hardware instance reference
