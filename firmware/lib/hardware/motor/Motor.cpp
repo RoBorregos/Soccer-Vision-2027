@@ -11,8 +11,10 @@
 
 static const uint8_t kMaxSpeed = 255;
 
-Motor::Motor(uint8_t pinIn1, uint8_t pinIn2, uint8_t pinPWM, bool inverted)
-    : pinIn1_(pinIn1), pinIn2_(pinIn2), pinPWM_(pinPWM), inverted_(inverted) {}
+Motor::Motor(uint8_t pinIn1, uint8_t pinIn2, uint8_t pinPWM, bool inverted,
+             float wheelAngle)
+    : pinIn1_(pinIn1), pinIn2_(pinIn2), pinPWM_(pinPWM),
+      wheelAngle_(wheelAngle), inverted_(inverted) {}
 
 void Motor::init() {
     pinMode(pinIn1_, OUTPUT);
@@ -48,3 +50,5 @@ void Motor::brake() {
 }
 
 void Motor::setPWMFrequency(float hz) { analogWriteFrequency(pinPWM_, hz); }
+
+float Motor::getWheelAngle() const { return wheelAngle_; }
