@@ -8,7 +8,8 @@
 MPU6050::MPU6050(Adafruit_MPU6050 &hardwareInstance, TwoWire &bus,
                  uint8_t i2cAddr)
     : mpu(hardwareInstance), i2cBus(bus), i2cAddr(i2cAddr), gyro_bias_z(0.0f),
-      yaw(0.0f), previous_time(0), previous_gyro(0.0f), change(0.0f), previous_change(0.0f) {}
+      yaw(0.0f), previous_time(0), previous_gyro(0.0f), change(0.0f),
+      previous_change(0.0f) {}
 
 bool MPU6050::init() {
     constexpr int samples = 500;
@@ -83,7 +84,6 @@ void MPU6050::update() {
         if (fabs(gyro_z) < 0.05f) {
             gyro_z = 0.0f;
         }
-    
 
         // Integrate angular velocity
         float avg_gyro_z = (gyro_z + previous_gyro) / 2.0f;
@@ -91,7 +91,7 @@ void MPU6050::update() {
         previous_gyro = gyro_z;
 
         // Normalize yaw between -180 and 180
-        yaw = wrap(yaw, -180.0f, 180.0f); 
+        yaw = wrap(yaw, -180.0f, 180.0f);
     }
 
     previous_change = change;
