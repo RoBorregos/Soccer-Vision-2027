@@ -27,8 +27,9 @@ bool MPU6050::init() {
 
     // Calibrate gyro Z
     unsigned long last_sample = millis();
+    int i = 0;
 
-    do {
+    while (i < samples) {
         unsigned long current_time = millis();
         if (current_time - last_sample >= 5) {
             mpu.getEvent(&accel, &gyro, &temp);
@@ -38,9 +39,9 @@ bool MPU6050::init() {
             sum += gyro_z;
 
             last_sample = millis();
-            samples--;
+            i++;
         }
-    } while (samples > 0);
+    }
 
     gyro_bias_z = sum / samples;
 
