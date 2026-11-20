@@ -1,11 +1,9 @@
 #include "BNO085.h"
-#include <Adafruit_BNO08x.h>
 #include <Arduino.h>
 #include <Wire.h>
+#include <hardware.h>
 
-Adafruit_BNO08x
-    native_bno_nav; // not optimal should be a reference from the hardware.cpp
-                    // file, but for testing purposes, we can use this for now
+extern class Adafruit_BNO08x native_bno_nav;
 BNO085 gyro(native_bno_nav, Wire, 0x4A, -1);
 
 void setup() {
