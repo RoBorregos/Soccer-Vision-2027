@@ -8,11 +8,13 @@
 #include "Motors.hpp"
 #include "PIDController.h"
 #include "constants/motorConstants.hpp"
+#include "constants/pidConstants.hpp"
 #include <Adafruit_BNO08x.h>
 #include <Arduino.h>
 #include <Wire.h>
 
 namespace mc = motorConstants;
+namespace pidc = pidConstants::heading;
 
 static Motor fL{mc::ids::frontLeftIn1, mc::ids::frontLeftIn2,
                 mc::ids::frontLeftPwm, mc::inversions::frontLeft,
@@ -42,7 +44,7 @@ constexpr uint32_t kPrintMS = 50;
 constexpr bool kUseMovementTimer = true;
 constexpr uint32_t kMovementDurationMs = 1000;
 
-static PIDController pid(1.5f, 0.3f, 0.1f);
+static PIDController pid(pidc::kP, pidc::kI, pidc::kD);
 static bool enabled = true;
 static bool drive = true;
 static uint32_t lastLoopUs = 0;

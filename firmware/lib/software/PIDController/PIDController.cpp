@@ -5,6 +5,7 @@
  */
 
 #include "PIDController.h"
+#include "../helpers/helpers.h"
 #include <math.h>
 
 static const float kIntegralZoneDeg = 20.0f;
@@ -29,15 +30,6 @@ void PIDController::reset() {
     hasPrev_ = false;
 }
 
-float PIDController::wrap180(float deg) {
-    deg = fmodf(deg + 180.0f, 360.0f);
-    if (deg <= 0.0f) {
-        deg += 360.0f;
-    }
-
-    return deg - 180.0f;
-}
-
 void PIDController::setTarget(float degrees) { target_ = degrees; }
 void PIDController::setOutputLimit(float maxOutput) { maxOutput_ = maxOutput; }
 void PIDController::setDeadband(float degrees) { deadband_ = degrees; }
@@ -56,10 +48,10 @@ float PIDController::update(float yawDeg, float dt) {
         return lastOutput_;
     }
 
-    error_ = wrap180(yawDeg - target_);
+    error_ = wrap(yawDeg - target_, -180.0f, 180.0f);
 
     if (hasPrev_) {
-        float rate = wrap180(yawDeg - lastYaw_) / dt;
+        float rate = wrap(yawDeg - lastYaw_, -180.0f, 180.0f) / dt;
         rate_ += kRateFilter * (rate - rate_);
     }
     lastYaw_ = yawDeg;

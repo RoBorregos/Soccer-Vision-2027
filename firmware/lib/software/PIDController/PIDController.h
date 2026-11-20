@@ -26,8 +26,6 @@ class PIDController {
     float getKi() const;
     float getKd() const;
 
-    static float wrap180(float deg);
-
   private:
     float kp_, ki_, kd_;
     float target_ = 0.0f;
