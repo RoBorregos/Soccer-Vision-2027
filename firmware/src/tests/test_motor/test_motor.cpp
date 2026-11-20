@@ -1,7 +1,10 @@
+#include "constants/motorConstants.hpp"
 #include "motor/Motor.hpp"
 #include <Arduino.h>
 
-Motor m{35, 36, 5, false};
+Motor m{motorConstants::ids::frontRightIn1, motorConstants::ids::frontRightIn2,
+        motorConstants::ids::frontRightPwm, false,
+        motorConstants::angles::frontRight};
 
 void setup() {
     Serial.begin(115200);

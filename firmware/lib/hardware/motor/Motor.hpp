@@ -13,7 +13,8 @@
 
 class Motor : public MotorInterface {
   public:
-    Motor(uint8_t pinIn1, uint8_t pinIn2, uint8_t pinPWM, bool inverted);
+    Motor(uint8_t pinIn1, uint8_t pinIn2, uint8_t pinPWM, bool inverted,
+          float wheelAngle);
 
     Motor(const Motor &) = delete;
     Motor &operator=(const Motor &) = delete;
@@ -24,8 +25,11 @@ class Motor : public MotorInterface {
     void coast() override;
     void brake() override;
 
-    void setPWMFrequency(float hz); // TODO: test on teensy
+    void setPWMFrequency(float hz);
+    float getWheelAngle() const;
+
   private:
     const uint8_t pinIn1_, pinIn2_, pinPWM_;
+    const float wheelAngle_;
     const bool inverted_;
 };
