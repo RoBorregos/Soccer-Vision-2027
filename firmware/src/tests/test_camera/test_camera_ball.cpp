@@ -1,13 +1,13 @@
 /**
  * @file test_camera_ball.cpp
- * 
+ *
  * @brief the robots rotates to the ball
  */
 
 #include "Camera.hpp"
-#include "helpers.h"
-#include "constants/motorConstants.hpp"
 #include "Motors.hpp"
+#include "constants/motorConstants.hpp"
+#include "helpers.h"
 #include <Arduino.h>
 
 namespace mc = motorConstants;
@@ -27,16 +27,20 @@ static Motor bR{mc::ids::backRightIn1, mc::ids::backRightIn2,
 
 static Motors motors(fL, fR, bL, bR);
 
-static Camera camera(Serial2, true);
+static Camera camera(Serial1);
 
-constexpr float kFrontAngle = 0.0f;
-constexpr float kKp = 3.0f;
+constexpr float kKp = 1.5f;
 constexpr float kMinRot = 60.0f;
-constexpr float kMaxRot = 120.0f;
-constexpr float kDeadband = 6.0f;
+constexpr float kMaxRot = 100.0f;
+constexpr float kDeadband = 5.0f;
+constexpr uint32_t kLostMS = 250;
+
+static uint32_t lastSeenMS = 0;
+static float lastError = 0;
 
 void setup() {
     Serial.begin(115200);
+    Serial1.begin(115200);
     camera.init();
     motors.init();
     delay(3000);
@@ -44,21 +48,20 @@ void setup() {
 
 void loop() {
     camera.read();
-    if(!camera.fresh() || !camera.ballSeen) {
+    if (camera.fresh() && camera.ballSeen) {
+        lastSeenMS = millis();
+        lastError = camera.ballAngle;
+        Serial.println(camera.ballAngle);
+    }
+
+    if (millis() - lastSeenMS > kLostMS || fabsf(lastError) < kDeadband) {
         motors.coast();
         return;
     }
 
+    float rot = constrain(kKp * fabsf(lastError), kMinRot, kMaxRot);
+    if (lastError < 0)
+        rot = -rot;
 
-    float error = wrap(camera.ballAngle - kFrontAngle, -180.0f, 180.0f);
-
-    if(fabs(error) < kDeadband) {
-        motors.coast();
-        return;
-    }
-
-    float rot = constrain(kKp * fabs(error), kMinRot, kMaxRot);
-    if(error < 0) rot = -rot;
-
-    motors.move(0.0f,0.0f,rot);
+    motors.move(0.0f, 0.0f, -1.0f * rot);
 }
