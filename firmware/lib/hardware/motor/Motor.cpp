@@ -49,6 +49,13 @@ void Motor::brake() {
     analogWrite(pinPWM_, 255);
 }
 
-void Motor::setPWMFrequency(float hz) { analogWriteFrequency(pinPWM_, hz); }
+void Motor::setPWMFrequency(float hz) {
+#ifdef ARDUINO_ARCH_AVR
+    // No implementar cambio de frecuencia aquí.
+    (void)hz;
+#else
+    analogWriteFrequency(pinPWM_, hz);
+#endif
+}
 
 float Motor::getWheelAngle() const { return wheelAngle_; }
