@@ -1,5 +1,3 @@
-#define PID_CALIBRATION
-
 #include "BNO085.h"
 #include <Arduino.h>
 #include <Wire.h>
@@ -24,7 +22,7 @@ void loop() {
 
     Serial.print("Yaw: "); 
     Serial.println(String(gyro.getYaw()));
-    
+
     gyro.update(); // Update the sensor readings
     delay(50);
 }

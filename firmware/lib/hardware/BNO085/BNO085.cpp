@@ -2,6 +2,7 @@
 #include "BNO085.h"
 #include <Adafruit_BNO08x.h>
 #include <math.h>
+#include "BNO085_constants.h"
 
 BNO085::BNO085(Adafruit_BNO08x &hardwareInstance, TwoWire &bus, uint8_t i2cAddr,
                int interruptPin)
@@ -42,8 +43,10 @@ void BNO085::update() {
         atan2(2.0f * (real * k + i * j), real * real + i * i - j * j - k * k);
 
     this->yaw = yawRadians * 180.0f / PI;    
-    unsigned long current_time = micros();
 
+    #ifdef PID_CALIBRATION
+    unsigned long current_time = micros();
+     
     float dt = (current_time - previous_time) / 1000000.0f;
 
     if (dt > 0.0f) {
@@ -52,11 +55,14 @@ void BNO085::update() {
         float angularVelocity = sensorValue.un.gyroscope.z;
 
         // Angular acceleration
-        accelerationAngular = (angularVelocity - previous_velocityAngular) / dt;
+        if (fabs((angularVelocity - previous_velocityAngular) / dt) < BNO085Constants::maxAngularAcceleration) {
+            accelerationAngular = (angularVelocity - previous_velocityAngular) / dt;
+        } 
 
         previous_velocityAngular = angularVelocity;
     }
     previous_time = current_time;
+    #endif
 
 }
 
