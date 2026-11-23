@@ -48,7 +48,7 @@ void Camera::process(const char *line) {
         goalDistance = bDist;
         goalAngle = bAng;
         ownDistance = yDist;
-        ownDistance = yAng;
+        ownAngle = yAng;
     }
 
     if (isMirror_)

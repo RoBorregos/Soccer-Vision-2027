@@ -5,7 +5,7 @@
  */
 
 #include "Camera.hpp"
-#include "Motors.hpp"
+#include "Motors.hpp" 
 #include "constants/motorConstants.hpp"
 #include "helpers.h"
 #include <Arduino.h>
@@ -29,10 +29,10 @@ static Motors motors(fL, fR, bL, bR);
 
 static Camera camera(Serial1);
 
-constexpr float kKp = 1.5f;
-constexpr float kMinRot = 60.0f;
-constexpr float kMaxRot = 100.0f;
-constexpr float kDeadband = 5.0f;
+constexpr float kKp = 0.3f;
+constexpr float kMinRot = 50.0f;
+constexpr float kMaxRot = 80.0f;
+constexpr float kDeadband = 6.0f;
 constexpr uint32_t kLostMS = 250;
 
 static uint32_t lastSeenMS = 0;
@@ -40,7 +40,6 @@ static float lastError = 0;
 
 void setup() {
     Serial.begin(115200);
-    Serial1.begin(115200);
     camera.init();
     motors.init();
     delay(3000);
@@ -51,7 +50,18 @@ void loop() {
     if (camera.fresh() && camera.ballSeen) {
         lastSeenMS = millis();
         lastError = camera.ballAngle;
-        Serial.println(camera.ballAngle);
+    }
+
+    static uint32_t lastPrintMS = 0;
+    if (millis() - lastPrintMS > 200) {
+        lastPrintMS = millis();
+        if (!camera.fresh())
+            Serial.println("[camera] no data");
+        else if (!camera.ballSeen)
+            Serial.println("[camera] data OK, ball not seen");
+        else
+            Serial.printf("[camera] ball dist=%.1f ang=%.1f\n", camera.ballDistance,
+                          camera.ballAngle);
     }
 
     if (millis() - lastSeenMS > kLostMS || fabsf(lastError) < kDeadband) {
@@ -63,5 +73,5 @@ void loop() {
     if (lastError < 0)
         rot = -rot;
 
-    motors.move(0.0f, 0.0f, -1.0f * rot);
+    motors.move(0.0f, 0.0f, -1.0f*rot);
 }
