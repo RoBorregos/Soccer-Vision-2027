@@ -7,4 +7,5 @@ class IMUInterface {
     virtual bool init() = 0;
     virtual void update() = 0;
     virtual float getYaw() const = 0;
+    virtual float getAccelerationAngular() const = 0;
 };

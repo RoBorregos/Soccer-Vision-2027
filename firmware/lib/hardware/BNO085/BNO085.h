@@ -12,6 +12,9 @@ class BNO085 : public IMUInterface {
     float yaw;
     uint8_t i2cAddr;
     int interruptPin;
+    float accelerationAngular;
+    float previous_velocityAngular;
+    unsigned long previous_time;
 
   public:
     // Constructor accepts the hardware instance reference
@@ -22,4 +25,5 @@ class BNO085 : public IMUInterface {
     bool init() override;
     void update() override;
     float getYaw() const override;
+    float getAccelerationAngular() const override;
 };
