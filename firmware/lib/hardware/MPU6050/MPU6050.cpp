@@ -69,7 +69,7 @@ void MPU6050::update() {
 
     double dt = (current_time - previous_time) / micro_to_second;
 
-    if (dt <= 0 || dt > 0.1) { // If the time difference is too large or
+    if (dt <= 0 || dt > 0.5) { // If the time difference is too large or
                                // negative, reset dt to 0 as a safety measure
         dt = 0;
     }
@@ -98,16 +98,19 @@ void MPU6050::update() {
 
         // Normalize yaw between -180 and 180
         yaw = wrap(yaw, -180.0f, 180.0f);
+
+        // Update accelerationAngular
+        float angularAcceleration =
+            (gyro_z - previous_velocityAngular) / dt;
+
+        accelerationAngular = angularAcceleration;
+        previous_velocityAngular = gyro_z;
+    } else {
+        // If the change is too small, we consider it as noise and set
+        // accelerationAngular to 0
+        accelerationAngular = 0.0f;
     }
 
     previous_change = change;
-
-    // Update accelerationAngular
-    float angularVelocity = gyro.gyro.z; // rad/s
-    float angularAcceleration =
-        (angularVelocity - previous_velocityAngular) / dt;
-
-    accelerationAngular = angularAcceleration;
-    previous_velocityAngular = angularVelocity;
     previous_time = current_time;
 }
