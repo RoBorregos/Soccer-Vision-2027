@@ -1,5 +1,5 @@
 #pragma once
-#include "IMUInterface.h"
+#include "../software/IMUInterface/IMUInterface.h"
 #include <stdint.h>
 
 class Adafruit_MPU6050;
@@ -15,8 +15,9 @@ class MPU6050 : public IMUInterface {
     float gyro_bias_z;
     unsigned long previous_time;
     float previous_gyro;
-    float change;
     float previous_change;
+    float accelerationAngular;
+    float previous_velocityAngular;
 
   public:
     // Constructor accepts the hardware instance reference
@@ -26,4 +27,5 @@ class MPU6050 : public IMUInterface {
     bool init() override;
     void update() override;
     float getYaw() const override;
+    float getAccelerationAngular() const override;
 };

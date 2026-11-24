@@ -2,7 +2,7 @@
 #include "BNO085.h"
 #include <Adafruit_BNO08x.h>
 #include <math.h>
-#include "BNO085_constants.h"
+#include "../../../include/constants/gyro_constants.h"
 
 BNO085::BNO085(Adafruit_BNO08x &hardwareInstance, TwoWire &bus, uint8_t i2cAddr,
                int interruptPin)
