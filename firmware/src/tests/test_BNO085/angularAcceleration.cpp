@@ -20,7 +20,7 @@ void loop() {
     Serial.print("Angular Acceleration: ");
     Serial.println(String(gyro.getAccelerationAngular()));
 
-    Serial.print("Yaw: "); 
+    Serial.print("Yaw: ");
     Serial.println(String(gyro.getYaw()));
 
     gyro.update(); // Update the sensor readings

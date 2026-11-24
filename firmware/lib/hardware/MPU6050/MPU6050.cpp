@@ -1,19 +1,20 @@
 
 #include "MPU6050.h"
+#include "../../../include/constants/gyro_constants.h"
+#include <../software/helpers/helpers.h>
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
-#include <../software/helpers/helpers.h>
 #include <math.h>
-#include "../../../include/constants/gyro_constants.h"
 
 MPU6050::MPU6050(Adafruit_MPU6050 &hardwareInstance, TwoWire &bus,
                  uint8_t i2cAddr)
     : mpu(hardwareInstance), i2cBus(bus), i2cAddr(i2cAddr), gyro_bias_z(0.0f),
-      yaw(0.0f), previous_time(0), previous_gyro(0.0f),
-      previous_change(0.0f), previous_velocityAngular(0.0f), accelerationAngular(0.0f) {}
+      yaw(0.0f), previous_time(0), previous_gyro(0.0f), previous_change(0.0f),
+      previous_velocityAngular(0.0f), accelerationAngular(0.0f) {}
 
 bool MPU6050::init() {
-    int samples = MPU6050Constants::samples; // Number of samples for calibration
+    int samples =
+        MPU6050Constants::samples; // Number of samples for calibration
 
     if (!mpu.begin(i2cAddr, &i2cBus)) {
         return false;
@@ -101,9 +102,10 @@ void MPU6050::update() {
 
     previous_change = change;
 
-    //Update accelerationAngular
-    float angularVelocity = gyro.gyro.z;  // rad/s
-    float angularAcceleration = (angularVelocity - previous_velocityAngular) / dt;
+    // Update accelerationAngular
+    float angularVelocity = gyro.gyro.z; // rad/s
+    float angularAcceleration =
+        (angularVelocity - previous_velocityAngular) / dt;
 
     accelerationAngular = angularAcceleration;
     previous_velocityAngular = angularVelocity;
