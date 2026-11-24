@@ -1,7 +1,7 @@
 /**
- * @file test_camera_ball.cpp
+ * @file test_camera_ball_v1.cpp
  *
- * @brief the robots rotates to the ball
+ * @brief v1: the robot rotates in place to keep the ball centered (heading only)
  */
 
 #include "Camera.hpp"

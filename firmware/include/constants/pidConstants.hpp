@@ -12,6 +12,6 @@ constexpr float kD = 0.1;
 namespace ballTracking {
 constexpr float kP = 0.3f;
 constexpr float kI = 0.0f;
-constexpr float kD = 0.1f;
+constexpr float kD = 0.0f;
 } // namespace ballTracking
 } // namespace pidConstants
