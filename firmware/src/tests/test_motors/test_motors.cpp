@@ -26,7 +26,7 @@ static Motor bR{mc::ids::backRightIn1, mc::ids::backRightIn2,
 static Motors motors(fL, fR, bL, bR);
 
 constexpr float kSpeed = 120.0f;
-constexpr float kRotation = 100.0f;
+constexpr float kRotation = 40.0f;
 constexpr uint32_t kMoveMS = 1500;
 
 static void hold(float degree, float speed, float rotation, uint32_t ms) {
@@ -48,11 +48,6 @@ void setup() {
 }
 
 void loop() {
-    delay(3000);
-    // One By One
-    // oneByOne();
-
-    // Rotate
     hold(0, 0, kRotation, kMoveMS);
 
     // Foward

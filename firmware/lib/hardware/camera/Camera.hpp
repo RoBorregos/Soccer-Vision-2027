@@ -25,6 +25,11 @@ class Camera {
 
     bool fresh(uint32_t timeoutMS = 300) const;
 
+    // Increments on every valid frame parsed; lets callers detect new data
+    uint32_t frameCount() const { return frameCount_; }
+    // millis() timestamp of the last valid frame
+    uint32_t lastUpdateMS() const { return lastUpdate_; }
+
   private:
     static constexpr size_t kBufSize = 120;
 
@@ -34,6 +39,7 @@ class Camera {
     char buffer_[kBufSize];
     size_t len_ = 0;
     uint32_t lastUpdate_ = 0;
+    uint32_t frameCount_ = 0;
 
     void process(const char *line);
 };

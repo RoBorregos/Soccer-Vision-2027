@@ -62,6 +62,7 @@ void Camera::process(const char *line) {
         lastValidBallAngle = goalAngle;
 
     lastUpdate_ = millis();
+    frameCount_++;
 }
 
 bool Camera::fresh(uint32_t timeoutMS) const {
