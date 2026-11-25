@@ -26,8 +26,6 @@ void loop() {
 
     if (millis() - lastReportMS > 2000) {
         lastReportMS = millis();
-        // Loopback check: with a jumper between pin 1 (TX1) and pin 0 (RX1)
-        // this line should be echoed back to the monitor.
         Serial1.print("teensy-loopback-ping\n");
         if (bytesReceived == 0)
             Serial.println("[no bytes received from Serial1 yet]");

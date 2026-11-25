@@ -23,6 +23,7 @@ void Motors::init() {
     }
 }
 
+/*
 void Motors::move(float degree, float speed, float rotation) {
     float pwm[kNumMotors];
     float maxPWM = 0.0f;
@@ -33,6 +34,27 @@ void Motors::move(float degree, float speed, float rotation) {
         pwm[i] = speed * cosf(angle) + rotation;
         maxPWM = fmaxf(maxPWM, fabsf(pwm[i]));
     }
+    float scale = (maxPWM > kMaxPWM) ? kMaxPWM / maxPWM : 1.0f;
+
+    for (size_t i = 0; i < kNumMotors; i++) {
+        motors_[i]->setSpeed((int)lroundf(pwm[i] * scale));
+    }
+}*/
+
+void Motors::move(float degree, float speed, float rotation) {
+    float pwm[kNumMotors];
+    float maxPWM = 0.0f;
+
+    float angle1 = (degree - motors_[0]->getWheelAngle() - kOffset) * kDegreesToRadians;
+    float angle2 = (degree - motors_[1]->getWheelAngle() - kOffset) * kDegreesToRadians;
+    float angle3 = (degree - motors_[2]->getWheelAngle() - kOffset) * kDegreesToRadians;
+    float angle4 = (degree - motors_[3]->getWheelAngle() - kOffset) * kDegreesToRadians;
+
+    pwm[0] = speed * 0.90f * cosf(angle1) + rotation;
+    pwm[1] = speed * 1.0f * cosf(angle2) + rotation;
+    pwm[2] = speed * 1.0f * cosf(angle3) + rotation;
+    pwm[3] = speed * 1.0f * cosf(angle4) + rotation;
+
     float scale = (maxPWM > kMaxPWM) ? kMaxPWM / maxPWM : 1.0f;
 
     for (size_t i = 0; i < kNumMotors; i++) {

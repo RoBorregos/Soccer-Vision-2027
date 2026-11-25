@@ -1,1 +1,7 @@
 *.pio
+
+# Machine-specific VS Code files (C/C++ Runner, IntelliSense)
+.vscode/c_cpp_properties.json
+.vscode/launch.json
+.vscode/.browse.c_cpp.db*
+.vscode/ipch

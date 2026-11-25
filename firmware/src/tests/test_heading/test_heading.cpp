@@ -41,7 +41,7 @@ constexpr float kDriveSpeed = 160.0f;
 constexpr uint32_t kLoopUs = 10000;
 constexpr uint32_t kStaleMs = 500; // IMU debug
 constexpr uint32_t kPrintMS = 50;
-constexpr bool kUseMovementTimer = true;
+constexpr bool kUseMovementTimer = false;
 constexpr uint32_t kMovementDurationMs = 1000;
 
 static PIDController pid(pidc::kP, pidc::kI, pidc::kD);
